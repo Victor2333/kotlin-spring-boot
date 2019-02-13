@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/hello")
 class HelloWorld @Autowired constructor(
-    val superTest: SuperTest
+    val superTest: SuperTest,
+    val abstractClass: ExtendAbstractClass
 ) {
 
     @GetMapping("/api")
@@ -18,13 +19,18 @@ class HelloWorld @Autowired constructor(
     }
 
     @GetMapping("/getFoo")
-    fun getFoo():String {
+    fun getFoo(): String {
         return superTest.foo()
     }
 
     @GetMapping("/getSuperFoo")
-    fun getSuperFoo():String {
+    fun getSuperFoo(): String {
         return superTest.superFoo()
+    }
+
+    @GetMapping("getAbstractClass")
+    fun getExtendAbstractClass(): String {
+        return abstractClass.hi()
     }
 }
 
@@ -34,8 +40,16 @@ open class Test {
     }
 }
 
+interface Super {
+    fun helloSuper(): String
+}
+
 @Service
-class SuperTest : Test() {
+class SuperTest : Test(), Super {
+    override fun helloSuper(): String {
+        return "hello Super"
+    }
+
     override var test = { a: Int ->
         "$a hello world"
     }
@@ -50,5 +64,22 @@ class SuperTest : Test() {
 
     fun superFoo(): String {
         return super.test(21)
+    }
+}
+
+abstract class AbstractClass {
+    abstract fun hi(): String
+
+    abstract val abstract: (Int) -> String
+}
+
+@Service
+class ExtendAbstractClass(
+    override val abstract: (Int) -> String = {
+        a:Int -> "$a Hello"
+    }
+) : AbstractClass() {
+    override fun hi(): String {
+        return this.abstract(0)
     }
 }

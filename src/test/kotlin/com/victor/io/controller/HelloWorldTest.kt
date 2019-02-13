@@ -41,5 +41,12 @@ class HelloWorldTest {
         this.mockMvc.perform(get("/hello/getSuperFoo").accept(MediaType.TEXT_PLAIN)).andExpect(status().isOk)
             .andExpect(content().string("hello 21"))
     }
+
+    @Test
+    fun abstractClassTest() {
+        given(this.helloWorld.getExtendAbstractClass()).willReturn("0 hello")
+        this.mockMvc.perform(get("/hello/getAbstractClass").accept(MediaType.TEXT_PLAIN)).andExpect(status().isOk)
+            .andExpect(content().string("0 hello"))
+    }
 }
 
