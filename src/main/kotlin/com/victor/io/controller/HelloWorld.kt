@@ -15,6 +15,7 @@ class HelloWorld @Autowired constructor(
 
     @GetMapping("/api")
     fun helloWorld(): String {
+
         return superTest.hello()
     }
 
