@@ -12,7 +12,6 @@ class HelloWorld @Autowired constructor(
     val superTest: SuperTest,
     val abstractClass: ExtendAbstractClass
 ) {
-
     @GetMapping("/api")
     fun helloWorld(): String {
         return superTest.hello()
